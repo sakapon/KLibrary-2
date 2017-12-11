@@ -1,0 +1,9 @@
+﻿■ネットワーク ドライブの割り当て
+net use Z: \\10.99.99.99\C$ /user:user1 P@ssw0rd
+
+■telnet
+○http://localhost/ に接続する
+telnet localhost 80
+GET / HTTP/1.1
+Host: localhost
+Connection: Close

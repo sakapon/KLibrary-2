@@ -1,0 +1,60 @@
+﻿■WCF Data Services のサンプルの作成 (Visual Studio 2010)
+○サーバー側
+・ASP.NET 空の Web アプリケーションを作成する
+・ADO.NET Entity Data Model (.edmx) を作成する
+・WCF Data Service (.svc) を作成する
+　DataService の型パラメーターに、上で作成された ObjectContext クラスを設定する
+　コメントを解除してアクセス許可を設定する (クラス名は * でよい)
+　最大データ数を指定する場合: config.SetEntitySetPageSize("*", 10);
+
+→Web サービスとして公開可能となる
+
+Products テーブル
+http://localhost:9370/WcfDataService1.svc/Products
+メタデータ
+http://localhost:9370/WcfDataService1.svc/$metadata
+
+○クライアント側
+・コンソール アプリケーションを作成する
+・上で作成したサービスに対するサービス参照を追加する
+
+→Entity Framework のプロキシでデータ アクセス可能となる
+
+○SQL Server Compact の利用
+SQL Server Compact 3.5 を ASP.NET で利用すると、次の例外が発生する。
+SQL Server Compact は ASP.NET 開発用ではありません。
+
+接続文字列の
+    provider=System.Data.SqlServerCe.3.5
+を
+    provider=System.Data.SqlServerCe.4.0
+に変更するとメタデータは取得できるようになるが、クエリの実行には失敗する。
+
+また、Visual Studio 2010 & SQL Server Compact 4.0 では、Database First で Entity Data Model を作れない。
+
+○JSON
+JSON 形式で取得するには、要求の HTTP ヘッダーに次を追加する。
+Accept: application/json
+
+■REST Web サービスのベスト プラクティス
+○前提
+OData v3, JSON Light
+SQL Server Compact 4.0
+
+○案 1
+Visual Studio 2012
+WCF Data Services 5.0
+Entity Framework 5.0
+
+○案 2
+Visual Studio 2012
+ASP.NET Web API
+Entity Framework 5.0
+
+■参照
+WCF Data Services 5.0 for OData v3
+http://www.microsoft.com/ja-jp/download/details.aspx?id=29306
+WCF Data Services 5.0 新機能 (OData 3.0 対応)
+http://blogs.msdn.com/b/tsmatsuz/archive/2012/04/19/wcf-data-services-5-0-with-odata-v3-what-s-new-features.aspx
+How to use WCF DS 5.0 in a Web Site project
+http://blogs.msdn.com/b/astoriateam/archive/2012/04/17/how-to-use-wcf-ds-5-0-in-a-web-site-project.aspx

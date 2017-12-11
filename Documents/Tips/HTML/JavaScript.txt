@@ -1,0 +1,105 @@
+﻿■Ajax
+○シグネチャとオプションの既定値 (jQuery 1.7.2)
+$.ajax(settings)
+$.ajax(url, settings)
+    type: "GET"
+    contentType: "application/x-www-form-urlencoded; charset=UTF-8"
+
+$.get(url, data, callback, dataType)
+    type: "GET"
+
+$.getJSON(url, data, callback)
+    type: "GET"
+    dataType: "json"
+
+$.getScript(url, callback)
+    type: "GET"
+    data: undefined
+    dataType: "script"
+
+$.post(url, data, callback, dataType)
+    type: "POST"
+
+○注意点
+dataType が指定されていない場合、応答の Content-Type ヘッダーにより戻り値の型が決定される。
+例えば JSON サービスであれば、次の値を指定することが望ましい。
+    dataType: "json"
+サービス側も、次のヘッダーを返すことが望ましい。
+    Content-Type: application/json; charset=utf-8
+
+○呼び出しの例
+・GET (引数なし)
+$.getJSON("Services/Products/1")
+$.ajax("Services/Products/1")
+
+・GET (引数あり)
+$.getJSON("Services/Products", { id: 1 })
+$.ajax("Services/Products", { data: { id: 1 } })
+
+・POST (引数なし)
+$.post("Services/Products/1")
+$.ajax("Services/Products/1", { type: "POST" })
+
+・POST (引数あり・URL エンコード)
+$.post("Services/Products/1", { name: "P1" })
+$.ajax("Services/Products/1", { type: "POST", data: { name: "P1" } })
+
+・POST (引数あり・JSON)
+$.ajax("Services/Products/1", { type: "POST", contentType: "application/json; charset=utf-8", data: JSON.stringify({ name: "P1" }) })
+
+・PUT, DELETE
+POST の場合と同様に $.ajax() を呼び出す。
+
+○コールバック
+success, error, complete は、それぞれ done, fail, always へ移行される。
+
+■イベント
+○on, off
+click() は、内部で on() を呼び出している。
+
+■ページ遷移前に確認ダイアログを表示する
+$(window).on("beforeunload", function (e) {
+    return "保存されていません。";
+    //return; // 表示させない場合
+});
+
+■逐語検索
+keyup イベントを利用する。
+
+    <div>
+        <input type="text" id="query" name="query" value="" />
+    </div>
+    <ul id="pis">
+        <li>1415926535</li>
+        <li>8979323846</li>
+        <li>2643383279</li>
+        <li>5028841971</li>
+        <li>6939937510</li>
+        <li>5820974944</li>
+        <li>5923078164</li>
+        <li>0628620899</li>
+        <li>8628034825</li>
+        <li>3421170679</li>
+    </ul>
+
+    $(function () {
+        $("#query").on("keyup", search);
+
+        function search() {
+            var r = new RegExp($("#query").val());
+            $("#pis li").each(function () {
+                var $el = $(this);
+                if ($el.text().match(r)) {
+                    $el.show();
+                } else {
+                    $el.hide();
+                }
+            });
+        }
+    });
+
+■参照
+jQuery 1.8の更新内容をまとめたよ。
+http://ginpen.com/2012/08/14/jquery-1-8/
+jQuery 1.7の on() off()について調べてみた
+http://c-brains.jp/blog/wsg/11/11/08-161217.php

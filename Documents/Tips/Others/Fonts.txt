@@ -1,0 +1,14 @@
+﻿■MeiryoKe
+メイリオを等幅にしたフォント
+http://okrchicagob.blog4.fc2.com/blog-entry-169.html
+
+○作成手順
+・次をダウンロードする
+meiryo612.zip
+meiryoKe_gen_6.12rev2.zip
+・これらのファイルを同一のフォルダー内に配置する
+・次を実行する
+meiryoKe_gen_6.12rev2.exe
+・次が生成される
+meiryoKe_612r2.ttc
+meiryoKeB_612r2.ttc

@@ -1,0 +1,38 @@
+﻿■推奨される型
+text → varchar(max)
+ntext → nvarchar(max)
+image → varbinary(max)
+bigint, decimal, money, smallmoney → numeric
+binary → varbinary
+
+■文字コード
+char, varchar: CP932 (日本語の場合)
+　「a」は 1 文字・1 バイト
+　「あ」は 2 文字・2 バイト
+
+nchar, nvarchar: Unicode
+　「a」は 1 文字・2 バイト
+　「あ」は 1 文字・2 バイト
+
+■照合順序
+一般的には、Japanese_90_CI_AS を使用する。
+
+○Windows 照合順序
+Japanese
+Japanese_90: サロゲート ペアの並べ替え
+
+○オプション
+CI: 大文字と小文字を区別しない
+CS: 大文字と小文字を区別する
+AI: アクセント (濁点) を区別しない
+AS: アクセント (濁点) を区別する
+KS: かなを区別する
+WS: 文字幅を区別する
+
+○Transact-SQL における COLLATE 句の使用
+select * from ... order by ... collate Japanese_90_CI_AS
+
+照合順序と Unicode のサポート
+http://msdn.microsoft.com/ja-jp/library/ms143726.aspx
+照合順序 (Transact-SQL)
+http://msdn.microsoft.com/ja-jp/library/ff848763.aspx

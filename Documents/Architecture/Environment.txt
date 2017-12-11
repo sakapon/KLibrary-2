@@ -1,0 +1,19 @@
+﻿■ バージョン変更ツール
+Build Version Increment を利用する。
+
+○ [Solution] タブ → SLN ファイル
+AssemblyInfoFilename: Properties\SharedAssemblyInfo.cs
+UseGlobalSettings: True
+
+ただし、アセンブリ情報をソリューションで統一していない場合、プロジェクトごとに
+UseGlobalSettings: True
+を設定する。
+
+○ [Global Settings] タブ
+Build Action: ReBuild
+Update AssemblyFileVersion: True
+Update AssemblyVersion: True
+Versioning Style: None.None.Increment.None
+
+■ Team Web Access
+https://tfs.codeplex.com/tfs/web/

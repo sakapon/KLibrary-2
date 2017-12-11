@@ -1,0 +1,23 @@
+﻿■修正
+Windows 7 または Windows Server 2008 R2 で利用するには、
+MakeZIP.VBS の 36 行目を次のように修正する。
+
+修正前: Set sFolderItem=Shell.NameSpace(fso.GetAbsolutePathName(Path)&"\..\").ParseName(FileName)
+修正後: Set sFolderItem=Shell.NameSpace(fso.GetAbsolutePathName(fso.GetParentFolderName(Path))).ParseName(FileName)
+
+■使用方法
+詳しくは、ZIP.VBS に付属の ZIP.VBS.TXT を参照する。
+
+○圧縮
+「Target」フォルダーを圧縮する場合
+
+cscript MakeZIP.VBS Result.zip Target
+
+○展開
+「Target.zip」を展開する場合
+
+cscript ExtractZIP.VBS Target.zip Result\
+
+・注意点
+(1) 出力先のディレクトリは存在していなければならない。
+(2) 最後に \ が必要。

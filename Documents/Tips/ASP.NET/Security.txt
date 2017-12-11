@@ -1,0 +1,29 @@
+﻿■DoS 攻撃
+
+<configuration>
+  <appSettings>
+    <add key="aspnet:MaxHttpCollectionKeys" value="1000"/>
+    <add key="aspnet:MaxJsonDeserializerMembers" value="1000"/>
+  </appSettings>
+  <system.web>
+    <!-- ASP.NET での制限。単位は KB。 -->
+    <httpRuntime maxRequestLength="4096"/>
+  </system.web>
+  <system.webServer>
+    <security>
+      <requestFiltering>
+        <!-- IIS での制限。単位は B。 -->
+        <requestLimits maxAllowedContentLength="30000000"/>
+      </requestFiltering>
+    </security>
+  </system.webServer>
+</configuration>
+
+○現象
+maxAllowedContentLength (IIS) よりも maxRequestLength (ASP.NET) を先に判定している？
+
+○参照
+多くのフォーム キー、ファイル、または JSON ペイロード メンバーを含む ASP.NET 要求が例外が発生して失敗する
+http://support.microsoft.com/kb/2661403/ja
+Webアプリケーションに対する広範なDoS攻撃手法(hashdos)の影響と対策
+http://blog.tokumaru.org/2011/12/webdoshashdos.html

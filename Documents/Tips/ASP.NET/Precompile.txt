@@ -1,0 +1,43 @@
+﻿■aspnet_compiler.exe
+%FrameworkDir%%FrameworkVersion%\aspnet_compiler.exe
+
+・プリコンパイル済みのディレクトリをプリコンパイルすることはできない。
+
+(1) 仮想ディレクトリにソースが配置されている場合
+
+aspnet_compiler -v /Apps/WebApp1 -c
+
+・プリコンパイル先のディレクトリは、
+　　%FrameworkDir%%FrameworkVersion%\Temporary ASP.NET Files
+・管理者として実行する必要がある。
+
+(2) 仮想ディレクトリにソースが配置されていない場合 (任意のターゲットを指定する場合)
+
+aspnet_compiler -v /Apps/WebApp1 -p C:\Source\WebApp1 -f C:\inetpub\wwwroot\Apps\WebApp1 -c
+
+・IIS に仮想ディレクトリの定義がなくても実行可能。
+・初回は、プリコンパイル先のディレクトリを空にして実行する。
+
+■コンパイルについて
+・プリコンパイルされていなくても、初回アクセス時にコンパイルされ、
+　　%FrameworkDir%%FrameworkVersion%\Temporary ASP.NET Files
+　にキャッシュされる。
+
+■ロードについて
+・アプリケーション プールのアイドル状態のタイムアウトを無効にするには、0 を指定する。
+・利用頻度が低いサイトの場合、リサイクル条件を例えば「仮想メモリ使用量が500MBに達したとき」のように設定する。
+・リサイクルの設定がされているアプリケーション プールでロード待ちを回避するには、定期タスクでサイトにアクセスする。
+
+■参照
+ASP.NET コンパイル ツール (Aspnet_compiler.exe)
+http://msdn.microsoft.com/ja-jp/library/ms229863(VS.100).aspx
+ASP.NET 2.0 の新しいコード コンパイル機能
+http://msdn.microsoft.com/ja-jp/library/dd297731.aspx
+Web サイトの内容をプリコンパイルしておく方法
+http://msdn.microsoft.com/ja-jp/library/cc671425.aspx
+
+周辺技術が支えるASP.NET 2.0の進化 (@IT)
+http://www.atmarkit.co.jp/fdotnet/asp2review/asp2review01/asp2review01_01.html
+
+初回起動を速くする法：プリ・コンパイル
+http://kuri6005.sakura.ne.jp/aspnet/wiki/index.php?%BD%E9%B2%F3%B5%AF%C6%B0%A4%F2%C2%AE%A4%AF%A4%B9%A4%EB%CB%A1%A1%A7%A5%D7%A5%EA%A1%A6%A5%B3%A5%F3%A5%D1%A5%A4%A5%EB

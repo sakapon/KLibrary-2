@@ -1,0 +1,67 @@
+﻿エクスプローラーのショートカット (右クリック) メニューの拡張
+
+■フォルダーのメニュー拡張
+例: コマンド プロンプトで開く (キー名を CmdDir とする)
+
+(1) regedit を起動し、次のキーを選択する。
+HKEY_CLASSES_ROOT\Directory\shell
+
+(2) キー「CmdDir」を作成し、既定の値に「コマンド プロンプトで開く」を設定する。
+※ 既定の値を設定しない場合、表示名としてキー名が使われる。
+
+(3) キー「CmdDir」の下にキー「command」を作成し、既定の値に次の文字列を指定する。
+cmd.exe /k "cd %V"
+
+■ファイルのメニュー拡張
+例: メモ帳で開く (キー名を Notepad とする)
+
+(1) regedit を起動し、次のキーを選択する。
+HKEY_CLASSES_ROOT\*\shell
+
+(2) キー「Notepad」を作成し、既定の値に「メモ帳で開く」を設定する。
+※ 既定の値を設定しない場合、表示名としてキー名が使われる。
+
+(3) キー「Notepad」の下にキー「command」を作成し、既定の値に次の文字列を指定する。
+notepad.exe "%1"
+
+■対象の種類
+Directory: 普通のフォルダー
+Directory\Background: 普通のフォルダーの背面の部分
+Drive: ドライブ
+Folder: ドライブや特殊フォルダーも含む
+*: すべてのファイル
+.xxx: 拡張子
+AllFileSystemObjects: すべてのファイルとフォルダー
+
+■定義済み動詞の利用
+・開く
+HKEY_CLASSES_ROOT\.xxx\shell\open\command
+
+■ショートカット キーの指定
+「コマンド プロンプトで開く(&P)」
+
+■バッチ実行
+.reg ファイルとしてエクスポートしておけば再利用できる。
+
+■参照
+エクスプローラでカレント・フォルダを選択してコマンド・プロンプトを開く
+http://www.atmarkit.co.jp/fwin2k/win2ktips/325openhere/openhere.html
+エクスプローラから右クリックでコマンドプロンプトを開く方法
+http://bird-memo.seesaa.net/article/8656838.html
+
+エクスプローラの右クリック・メニューを整理する
+http://www.atmarkit.co.jp/fwin2k/win2ktips/638clearcontext/clearcontext.html
+エクスプローラの右クリックメニューに任意のアプリケーションを追加
+http://blog.tomoattori.info/article/34194016.html
+
+エクスプローラでフォルダやドライブを右クリックしたときに表示されるコンテキストメニューに項目を追加する
+http://dobon.net/vb/dotnet/system/explorecontextmenu.html
+プログラムをファイルの拡張子に関連付ける
+http://dobon.net/vb/dotnet/system/associatedapp.html
+フォルダのコンテキストメニューを追加する4つのレジストリキー
+http://kayuitoko.blog129.fc2.com/blog-entry-11.html
+
+［送る］メニューに項目を追加する方法
+http://www.atmarkit.co.jp/fwin2k/win2ktips/085sendto/085sendto.html
+［送る］メニューに項目を追加する方法（Windows 7編）
+http://www.atmarkit.co.jp/fwin2k/win2ktips/1391sendto7/sendto7.html

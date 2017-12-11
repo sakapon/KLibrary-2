@@ -1,0 +1,67 @@
+﻿jQuery の IntelliSense
+
+Visual Studio では、JavaScript に対しても IntelliSense (入力補完機能) を利用できます。
+VS 2010でのJavaScript IntelliSenseの改善で説明されている通り、メンバーやその型などが動的に推論されます。
+
+一方で、推論できない部分に対しては XML ドキュメント コメントを記述することで解決できます。
+具体的には、関数の説明を表示したり、変数および戻り値の型を明示したりできます。
+C# の XML ドキュメント コメントに近い形式で記述します。
+
+しかし、本番環境では転送量を削減するため、空白やコメントを除去して軽量化した JavaScript ファイルを使うことがあります。
+例えば jQuery であれば、jquery-1.8.3.min.js のような名前のファイルです。
+そのような状況で開発する場合、<script src="～"> には軽量化した JavaScript ファイルのパスを指定しつつ、XML ドキュメント コメントを利用したいと思うでしょう。
+Visual Studio は、これに対応できる機能を備えています。
+
+■自分のサイトに jQuery を配置する場合
+実際に Visual Studio 2010 で、
+「ASP.NET Web アプリケーション」または「ASP.NET MVC 2 Web アプリケーション」のテンプレートからプロジェクトを作成してみると、
+jQuery としては次の 3 種類のファイルが含まれています。
+
+jquery-1.4.1-vsdoc.js (XML ドキュメント コメントあり)
+jquery-1.4.1.js (通常版)
+jquery-1.4.1.min.js (軽量版)
+
+(図)
+
+<script src="～"> で jquery-1.4.1.min.js を読み込んでコードを記述してみます。
+
+(図)
+
+このように、<script src="～"> に xxx.js または xxx.min.js が指定された場合、
+同じ階層に xxx-vsdoc.js が存在するとその XML ドキュメント コメントが適用されます。
+デバッグ時のステップ実行には、<script src="～"> で指定されたファイルが適用されます。
+
+なお、jQuery 1.4.1 では XML ドキュメント コメントが日本語で記述されています (Visual Studio が日本語版の場合)。
+jQuery の初心者が学習しながら実装していくには最適な環境だと思います。
+
+ただし、これよりも後のバージョンでは日本語化されていないと思います。 
+「ASP.NET MVC 3 Web アプリケーション」のテンプレートに含まれている jQueryのバージョンは 1.5.1 ですが、
+この XML ドキュメント コメントは英語で記述されています。
+
+■外部の CDN 上の jQuery を参照する場合
+リモートの jQuery を参照する場合も、原理は同様です。 
+CDN として Microsoft Ajax Content Delivery Network を利用すると便利です。
+http://www.asp.net/ajaxlibrary/cdn.ashx#jQuery_Releases_on_the_CDN_0
+この CDN では、先ほどと同様の 3 種類のファイルがホストされています。
+
+(図)
+
+■JavaScript ライブラリを自作する場合
+JavaScript ライブラリを自分で作成する場合は、
+xxx-vsdoc.js にコードおよび XML ドキュメント コメントを記述して開発し、
+Microsoft Ajax Minifier などの軽量化ツールで xxx.min.js を生成すればよいでしょう。
+
+バージョン情報
+Visual Studio 2010, 2012
+
+参照
+Microsoft Ajax Content Delivery Network
+http://www.asp.net/ajaxlibrary/cdn.ashx
+Microsoft Ajax Minifier
+http://ajaxmin.codeplex.com/
+JavaScript IntelliSense
+http://msdn.microsoft.com/ja-jp/library/bb385682.aspx
+XML ドキュメント コメント (JavaScript)
+http://msdn.microsoft.com/ja-jp/library/hh524453.aspx
+VS 2010でのJavaScript IntelliSenseの改善
+http://www.atmarkit.co.jp/fdotnet/scottgublog/20100412jsintellisense/jsintellisense.html

@@ -1,0 +1,121 @@
+﻿JSON データのデシリアライズにおける日付型の変換
+
+次のようなコードで jQuery の Ajax 機能で JSON Web サービスを呼び出すと、
+コールバック関数の引数 data には JSON データがデシリアライズされたオブジェクトが渡されます。
+ここで、data の中の値の型について考えてみます。
+
+            $.getJSON("Services/Products")
+                .done(function (data) {
+                    // 受け取ったデータに対する処理
+                    var value = data[0].prop1; // 何型？
+                });
+
+JSON 形式では、オブジェクト、配列、文字列、数値、ブール値、null の記法が定義されており、
+それぞれ JavaScript の Object, Array, String, Number, Boolean, null の値に対応するのですが、
+日付型は定義されていません。
+
+jQuery では JSON 形式の文字列をデシリアライズするために、
+既定では JSON.parse 関数と同等の関数 (IE7 以前のために拡張されたもの) を使用します。
+この場合、たとえ ISO 8601 の日付形式である "2012-12-24T14:59:59.999Z" のような文字列であっても、
+自動的に Date 型に変換されることはありません。
+
+しかし jQuery の Ajax 機能の設定値の中に converters というものがあり、
+デシリアライズ方法をカスタマイズできるようになっています。
+この機能は、jQuery 1.5で追加されたようです。
+
+今回は、この converters を利用して日付を表す文字列を Date 型に変換してみます。
+
+■ ISO 8601 の日付形式の場合
+converters を設定するには、Ajax で通信を開始する前に $.ajaxSetup 関数を呼び出します。
+キー "text json" に対してデシリアライズ関数を指定します。
+次のように実装します。
+
+            $.ajaxSetup({
+                converters: {
+                    "text json": function (text) {
+                        return JSON.parse(text, reviveDate);
+                    }
+                }
+            });
+
+            function reviveDate(key, value) {
+                if (value == null ||
+                    value.constructor !== String ||
+                    value.search(/^\d{4}-\d{2}-\d{2}/g) === -1)
+                    return value;
+                return new Date(value);
+            }
+
+実は JSON.parse 関数の第 2 引数には、キーと値を受け取って任意の値に変換する関数を指定できます。
+この関数の中で、文字列の先頭部分が YYYY-MM-DD に一致した場合は Date 型に変換しています。
+
+ここでは、先頭部分が YYYY-MM-DD の形式であるという前提でしたが、
+どのような条件で Date 型に変換するかは案件次第です。
+「key がサフィックスとして "Date" を持つ (例: startDate)」という判定条件も考えられるでしょう。
+
+なお、IE で Date のコンストラクターに ISO 8601 の日付形式を指定できるのは、IE9 以降です。
+
+ちなみに、
+        $.ajaxSettings.converters["text json"] = function (text) {
+            return JSON.parse(text, reviveDate);
+        };
+のように、$.ajaxSettings.converters に直接上書きしても同様の効果です。
+
+では実際にこのような JSON データをデシリアライズして、表示してみます。
+(図)
+
+■ ASP.NET の場合
+JSON Web サービスを WCF サービスなどで実装する場合、
+.NET Framework の DateTime 型のオブジェクトは
+"\/Date(1356361199999)\/" または "\/Date(1356361199999+0900)\/" のような形式にシリアライズされます。
+
+したがって、次のように実装します。
+(コード)
+(図)
+
+■ その他の場合
+その他にも、日付の形式が案件で指定されている場合や、ISO 8601 形式を IE8 でも使いたい場合などが考えられますが、
+同様に変換ロジックをカスタマイズすれば実現できると思います。
+極端な例として、"2012年12月24日" という形式の場合は、次のようにして実現できます。
+(コード)
+(図)
+
+作成したサンプル
+JSON Converter Sample 1 (ISO 8601 形式)
+JSON Converter Sample 2 (ASP.NET 形式)
+JSON Converter Sample 3 (カスタム形式)
+http://apptest12.saka-pon.net/Advent2012/1223/JsonConverter1.htm
+http://apptest12.saka-pon.net/Advent2012/1223/JsonConverter2.htm
+http://apptest12.saka-pon.net/Advent2012/1223/JsonConverter3.htm
+
+バージョン情報
+JSON.parse 関数: Internet Explorer 8 以降、その他の主要なブラウザー
+ISO 8601 形式を受け取る Date のコンストラクター: Internet Explorer 9 以降、その他の主要なブラウザー
+
+JSON.parse 関数 (JavaScript)
+http://msdn.microsoft.com/ja-jp/library/cc836466.aspx
+日付と時刻文字列の形式指定 (JavaScript)
+http://msdn.microsoft.com/ja-jp/library/ff743760.aspx
+
+参照
+jQuery.ajax()
+http://api.jquery.com/jQuery.ajax/
+Extending Ajax: Prefilters, Converters, and Transports
+http://api.jquery.com/extending-ajax/
+
+JSON の紹介
+http://www.json.org/json-ja.html
+Date and Time Formats (W3C)
+http://www.w3.org/TR/NOTE-datetime
+
+jQuery parseJSON automatic date conversion for Asp.net and ISO date strings
+http://erraticdev.blogspot.jp/2010/12/converting-dates-in-json-strings-using.html
+
+■補足
+協定世界時 (UTC): YYYY-MM-DDThh:mm:ss.sssZ
+日本標準時 (JST): YYYY-MM-DDThh:mm:ss.sss+09:00
+　米国などではマイナスになる
+
+C#
+    var dt = new DateTime(2012, 12, 24, 14, 59, 59, 999, DateTimeKind.Utc);
+    var dt = new DateTime(2012, 12, 24, 23, 59, 59, 999, DateTimeKind.Local);

@@ -1,0 +1,14 @@
+﻿■ユーザー インスタンス
+・SQL Server Express のみ
+・この機能は、将来のバージョンの SQL Server では削除される予定
+
+○ASP.NET での接続文字列
+　　%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\Config\machine.config
+では、既定の設定として次のように記述されている。
+    <add name="LocalSqlServer" connectionString="data source=.\SQLEXPRESS;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|aspnetdb.mdf;User Instance=true" providerName="System.Data.SqlClient"/>
+
+○参照
+SQL Server Express ユーザー インスタンス
+http://msdn.microsoft.com/ja-jp/library/ms254504.aspx
+管理者以外のユーザーのためのユーザー インスタンス
+http://msdn.microsoft.com/ja-jp/library/ms143684.aspx

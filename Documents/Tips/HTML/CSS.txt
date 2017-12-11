@@ -1,0 +1,10 @@
+﻿■Web フォント
+@font-face
+{
+    font-family: Font1;
+    src: url('../Fonts/Font1.ttf') format('truetype');
+}
+body
+{
+    font-family: Font1, sans-serif;
+}

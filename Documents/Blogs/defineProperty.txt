@@ -1,0 +1,104 @@
+﻿Object.defineProperty 関数で Observable なオブジェクトを作る
+
+(あまり知られていないけど役に立つ JavaScript tips Advent Calendar 2012 の 9 日目です。)
+
+JavaScript の Object.defineProperty 関数 (および Object.defineProperties 関数) は、オブジェクトにプロパティを動的に定義します。
+この関数の引数 descriptor の get 属性と set 属性に、プロパティへのアクセサーとなる関数を指定できるわけですが、ここに任意の処理を追加できます。
+
+この仕組みを利用して、Observable (監視可能) なオブジェクトを作ることができます。
+ここでは、Observable なオブジェクトとは、プロパティ値の変更を通知するオブジェクトを指すこととします。
+jQuery を活用して、次のように実装できます。
+
+        var obj = {};
+        Object.defineProperty(obj, "prop1", createDescriptor("prop1"));
+
+        function createDescriptor(name) {
+            var value;
+            return {
+                get: function () {
+                    return value;
+                },
+                set: function (v) {
+                    if (value === v) return;
+                    value = v;
+                    $(this).trigger("propertychange", [name, v]);
+                },
+                enumerable: true,
+                configurable: true
+            };
+        }
+
+        obj.prop1 = "Original";
+        $(obj).on("propertychange", function (e, name, value) {
+            alert(name + ": " + value);
+        });
+        obj.prop1 = "New";
+
+通知の発行と受信には、それぞれ jQuery の trigger メソッドと on メソッドを利用しています。
+これで、prop1 プロパティの値が変更されると、その通知を受け取ることができるようになりました。
+最後の行が実行されると、ダイアログが表示されます。
+
+これを汎用化するために、コンストラクターにしてみます。
+
+        var Observable = (function () {
+            function Observable(obj) {
+                if (obj == null) return;
+                for (var p in obj) {
+                    Object.defineProperty(this, p, createDescriptor(p, obj[p]));
+                }
+            }
+
+            function createDescriptor(name, value0) {
+                var value = value0;
+                return {
+                    get: function () {
+                        return value;
+                    },
+                    set: function (v) {
+                        if (value === v) return;
+                        value = v;
+                        $(this).trigger("propertychange", [name, v]);
+                    },
+                    enumerable: true,
+                    configurable: true
+                };
+            }
+            return Observable;
+        })();
+
+これで、Plain なオブジェクトを Observable なオブジェクトに変換することができます。
+
+        var obj = { id: 123, name: "Original" };
+        var observable = new Observable(obj);
+
+        $(observable).on("propertychange", function (e, name, value) {
+            alert(name + ": " + value);
+        });
+        observable.id = 456;
+        observable.name = "New";
+
+このようなクラスを何に利用できるかというと、例えば Model と View を同期させる仕組みを作ることができます。
+というわけで、このクラスとテンプレート エンジンを組み合わせた簡単なサンプルを作ってみました。
+
+Data Binding Sample
+http://apptest12.saka-pon.net/Advent2012/1209/CountDown.htm
+
+ここで使われているテンプレート エンジンについては詳しく説明しませんが、jQuery Templates のようなテンプレート エンジンを自作したものです。
+<div class="times"> の部分が appModel というデータにバインドされていて、バインド時に appModel は Observable 型になります。
+1 秒ごとにタイマーで Model を更新すると、それが自動的に View まで伝播します。
+記述量が少なく、ロジックを追いやすい JavaScript で HTML アプリケーションを構築することができます。
+
+ただし、Object.defineProperty 関数は IE8 以下で動作しません。
+今後 Windows XP のサポートが終了し、jQuery 2.x が主流になってくる頃には、各 MVx フレームワークでもこういった手法が採り入れられていくことが期待されます。
+
+バージョン情報
+Internet Explorer 9 以降、その他の主要なブラウザー
+jQuery 1.7 以降
+
+参照
+Object.defineProperty 関数 (JavaScript) (MSDN)
+http://msdn.microsoft.com/ja-jp/library/dd548687.aspx
+defineProperty (MDN)
+https://developer.mozilla.org/ja/docs/JavaScript/Reference/Global_Objects/Object/defineProperty
+ECMA-262 5th edition で導入された Object.defineProperty を使い、属性を指定してプロパティを定義する
+http://d.hatena.ne.jp/vividcode/20110309/1299689747

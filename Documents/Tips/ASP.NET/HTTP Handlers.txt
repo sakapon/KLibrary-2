@@ -1,0 +1,98 @@
+﻿1. 作成
+■ HTTP ハンドラーの種類
+HTTP 同期ハンドラー: IHttpHandler を実装
+HTTP 非同期ハンドラー: IHttpAsyncHandler を実装
+HTTP ハンドラー ファクトリ: IHttpHandlerFactory を実装
+
+■ セッション
+読み取りが必要: IReadOnlySessionState を実装
+読み取り・書き込みが必要: IRequiresSessionState を実装
+
+2. マッピング
+path には拡張子だけでなく、例えば「Samples/*」のようなパスも指定できる。
+
+--- 条件分岐 ---
+・マネージ パイプライン モードは統合かクラシックか
+・IIS のバージョンは 6.0 以前か 7.0 以降か
+・.NET Framework のバージョンは 2.0 か 4.0 か
+・32 ビットか 64 ビットか
+・ASP.NET MVC かどうか
+
+■ 統合の場合
+(1) IIS が直接、HTTP ハンドラーに処理を委譲する
+(IIS マネージャーでは、[ハンドラー マップ] → [マネージ ハンドラーの追加...] で設定可能)
+
+  <system.webServer>
+    <handlers>
+      <add name="SampleHandler" path="*.ext" verb="*" type="WebApp1.SampleHandler" resourceType="Unspecified" preCondition="integratedMode" />
+    </handlers>
+  </system.webServer>
+
+■ クラシックの場合
+(1) IIS が ASP.NET に処理を委譲する
+○ IIS 6.0 以前 (クラシック) の場合
+IIS マネージャーで、拡張子と aspnet_isapi.dll を関連付ける。
+
+○ IIS 7.0 以降 (クラシック) の場合
+(IIS マネージャーでは、[ハンドラー マップ] → [スクリプト マップの追加...] で設定可能)
+
+  <system.webServer>
+    <handlers>
+      <add name="SampleHandler-ISAPI-2.0-32" path="*.ext" verb="*" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll" resourceType="Unspecified" preCondition="classicMode,runtimeVersionv2.0,bitness32" />
+      <add name="SampleHandler-ISAPI-2.0-64" path="*.ext" verb="*" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework64\v2.0.50727\aspnet_isapi.dll" resourceType="Unspecified" preCondition="classicMode,runtimeVersionv2.0,bitness64" />
+      <add name="SampleHandler-ISAPI-4.0-32" path="*.ext" verb="*" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework\v4.0.30319\aspnet_isapi.dll" resourceType="Unspecified" preCondition="classicMode,runtimeVersionv4.0,bitness32" />
+      <add name="SampleHandler-ISAPI-4.0-64" path="*.ext" verb="*" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework64\v4.0.30319\aspnet_isapi.dll" resourceType="Unspecified" preCondition="classicMode,runtimeVersionv4.0,bitness64" />
+    </handlers>
+  </system.webServer>
+
+.NET Framework のバージョンやビットが決まっている場合は、上記のうち必要なものだけを記述すればよい。
+
+(2) ASP.NET が HTTP ハンドラーに処理を委譲する
+
+  <system.web>
+    <httpHandlers>
+      <add verb="*" path="*.ext" type="WebApp1.SampleHandler" />
+    </httpHandlers>
+  </system.web>
+
+■ ASP.NET 開発サーバーの場合
+クラシックで動作するが、<system.webServer> の記述は必要ない。(2) のみでよい。
+
+■ 以上のすべての場合に対応した記述
+<system.web> と <system.webServer> の両方に設定を記述すると、統合モードではエラーとなる。
+これを回避するために、次の記述を追加する。
+
+  <system.webServer>
+    <validation validateIntegratedModeConfiguration="false" />
+  </system.webServer>
+
+------
+<configuration>
+  <system.web>
+    <httpHandlers>
+      <add verb="*" path="*.ext" type="WebApp1.SampleHandler" />
+    </httpHandlers>
+  </system.web>
+  <system.webServer>
+    <validation validateIntegratedModeConfiguration="false" />
+    <handlers>
+      <add name="SampleHandler" path="*.ext" verb="*" type="WebApp1.SampleHandler" resourceType="Unspecified" preCondition="integratedMode" />
+      <add name="SampleHandler-ISAPI-2.0-32" path="*.ext" verb="*" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll" resourceType="Unspecified" preCondition="classicMode,runtimeVersionv2.0,bitness32" />
+      <add name="SampleHandler-ISAPI-2.0-64" path="*.ext" verb="*" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework64\v2.0.50727\aspnet_isapi.dll" resourceType="Unspecified" preCondition="classicMode,runtimeVersionv2.0,bitness64" />
+      <add name="SampleHandler-ISAPI-4.0-32" path="*.ext" verb="*" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework\v4.0.30319\aspnet_isapi.dll" resourceType="Unspecified" preCondition="classicMode,runtimeVersionv4.0,bitness32" />
+      <add name="SampleHandler-ISAPI-4.0-64" path="*.ext" verb="*" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework64\v4.0.30319\aspnet_isapi.dll" resourceType="Unspecified" preCondition="classicMode,runtimeVersionv4.0,bitness64" />
+    </handlers>
+  </system.webServer>
+</configuration>
+------
+
+■ ASP.NET MVC の場合
+Global.asax.cs にある RegisterRoutes メソッドに、次の記述を追加する。
+
+    routes.IgnoreRoute("{resource}.ext/{*pathInfo}");
+
+■ 参照
+HTTP ハンドラーと HTTP モジュールの概要
+http://msdn.microsoft.com/ja-jp/library/bb398986.aspx
+方法 : HTTP ハンドラーを登録する
+http://msdn.microsoft.com/ja-jp/library/46c5ddfy.aspx
