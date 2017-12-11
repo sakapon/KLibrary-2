@@ -1,0 +1,86 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{DBC9C61D-76F9-42DC-B027-C5115B4E1CDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{AC7CE3DE-D34F-457B-AB2C-11C43EEDC8B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Properties", "Properties", "{990795FC-ACD8-4542-BD55-2891746B3225}"
+	ProjectSection(SolutionItems) = preProject
+		Properties\KLibrary.snk = Properties\KLibrary.snk
+		Properties\KRules.ruleset = Properties\KRules.ruleset
+		Properties\SharedAssemblyInfo.cs = Properties\SharedAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{3D91783B-90A5-48BE-AD87-FE766C202021}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EF90E07D-5A67-456F-90DC-CD266C2C2D19}"
+	ProjectSection(SolutionItems) = preProject
+		KLibrary2.vsmdi = KLibrary2.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Extensions", "Core.Extensions\Core.Extensions.csproj", "{A187A50C-BC62-45C1-AB99-FD495BB70330}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable", "Portable\Portable.csproj", "{8C7CD208-C06E-4F2C-B9B2-27A835E0FF11}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs13
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Core\\Core.csproj
+		SccProjectName1 = Core
+		SccLocalPath1 = Core
+		SccProjectUniqueName2 = Web\\Web.csproj
+		SccProjectName2 = Web
+		SccLocalPath2 = Web
+		SccProjectUniqueName3 = Test\\Test.csproj
+		SccProjectName3 = Test
+		SccLocalPath3 = Test
+		SccProjectUniqueName4 = Core.Extensions\\Core.Extensions.csproj
+		SccProjectName4 = Core.Extensions
+		SccLocalPath4 = Core.Extensions
+		SccProjectUniqueName5 = Portable\\Portable.csproj
+		SccProjectName5 = Portable
+		SccLocalPath5 = Portable
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = KLibrary2.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBC9C61D-76F9-42DC-B027-C5115B4E1CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBC9C61D-76F9-42DC-B027-C5115B4E1CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBC9C61D-76F9-42DC-B027-C5115B4E1CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBC9C61D-76F9-42DC-B027-C5115B4E1CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC7CE3DE-D34F-457B-AB2C-11C43EEDC8B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC7CE3DE-D34F-457B-AB2C-11C43EEDC8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC7CE3DE-D34F-457B-AB2C-11C43EEDC8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC7CE3DE-D34F-457B-AB2C-11C43EEDC8B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D91783B-90A5-48BE-AD87-FE766C202021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D91783B-90A5-48BE-AD87-FE766C202021}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D91783B-90A5-48BE-AD87-FE766C202021}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D91783B-90A5-48BE-AD87-FE766C202021}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A187A50C-BC62-45C1-AB99-FD495BB70330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A187A50C-BC62-45C1-AB99-FD495BB70330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A187A50C-BC62-45C1-AB99-FD495BB70330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A187A50C-BC62-45C1-AB99-FD495BB70330}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C7CD208-C06E-4F2C-B9B2-27A835E0FF11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C7CD208-C06E-4F2C-B9B2-27A835E0FF11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C7CD208-C06E-4F2C-B9B2-27A835E0FF11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C7CD208-C06E-4F2C-B9B2-27A835E0FF11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		BuildVersion_UseGlobalSettings = True
+		BuildVersion_AssemblyInfoFilename = Properties\SharedAssemblyInfo.cs
+	EndGlobalSection
+EndGlobal
