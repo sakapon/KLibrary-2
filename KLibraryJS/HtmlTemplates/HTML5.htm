@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Expires" content="86400" />
+    <meta name="viewport" content="width=device-width, height=device-height" />
+    <meta name="apple-mobile-web-app-capable" content="no" />
+    <meta name="description" content="説明です。" />
+    <meta name="keywords" content="aaa,bbb,ccc" />
+    <meta property="og:url" content="http://tempuri.org/App/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="サイト名" />
+    <meta property="og:title" content="App" />
+    <meta property="og:description" content="説明です。" />
+    <meta property="og:image" content="http://tempuri.org/favicon.ico" />
+    <meta property="og:locale" content="ja_JP" />
+    <title>App</title>
+    <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon" />
+    <link href="favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+    <link href="favicon.ico" rel="apple-touch-icon" type="image/vnd.microsoft.icon" />
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <link href="Resources/Styles/App.css" rel="stylesheet" type="text/css" />
+    <script src="Resources/Scripts/App.js" type="text/javascript"></script>
+    <style type="text/css">
+        .content
+        {
+            height: 500px;
+        }
+        #Section1
+        {
+            width: 400px;
+            height: 200px;
+            left: 0px;
+            top: 0px;
+            background-color: #FCC;
+        }
+        #Section2
+        {
+            width: 400px;
+            height: 200px;
+            left: 400px;
+            top: 100px;
+            background-color: #CFC;
+        }
+        #Section3
+        {
+            width: 400px;
+            height: 200px;
+            left: 200px;
+            top: 300px;
+            background-color: #CCF;
+        }
+        @media (max-width: 719px)
+        {
+            .content
+            {
+                height: 600px;
+            }
+            #Section2
+            {
+                left: 0px;
+                top: 200px;
+            }
+            #Section3
+            {
+                left: 0px;
+                top: 400px;
+            }
+        }
+        @media (min-width: 720px) and (max-width: 959px)
+        {
+            .content
+            {
+                height: 600px;
+            }
+            #Section2
+            {
+                left: 200px;
+                top: 200px;
+            }
+            #Section3
+            {
+                left: 100px;
+                top: 400px;
+            }
+        }
+        @media (min-width: 1280px)
+        {
+            #Section3
+            {
+                left: 700px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header>
+            <h1>App</h1>
+        </header>
+        <div class="content">
+            <section id="Section1">
+                <p>Section 1</p>
+                <p><a href="XHTML 1.0.htm">XHTML 1.0 テンプレート</a></p>
+            </section>
+            <section id="Section2">
+                <p>Section 2</p>
+                <p><a href="HTML5.htm">HTML5 テンプレート</a></p>
+            </section>
+            <section id="Section3">
+                <p>Section 3</p>
+            </section>
+        </div>
+        <footer>
+            <p>Copyright &copy; 2012, Keiho Sakapon.</p>
+        </footer>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            App.func1();
+        });
+    </script>
+</body>
+</html>

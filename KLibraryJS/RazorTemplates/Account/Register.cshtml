@@ -1,0 +1,157 @@
+﻿@{
+    //  レイアウト ページとページ タイトルを設定します
+    Layout = "~/_SiteLayout.cshtml";
+    Page.Title = "アカウントの登録";
+
+    //  全般的なページ変数を初期化します
+    var email = "";
+    var password = "";
+    var confirmPassword = "";
+
+    // 検証
+    var isValid = true;
+    var emailErrorMessage = "";
+    var passwordErrorMessage = "";
+    var confirmPasswordMessage = "";
+    var accountCreationErrorMessage = "";
+    // var captchaMessage = "";
+
+    //  これが POST 要求の場合、データを検証して処理します
+    if (IsPost) {
+        email = Request.Form["email"];
+        password = Request.Form["password"];
+        confirmPassword = Request.Form["confirmPassword"];
+
+        //  ユーザーの captcha の回答を検証します
+        // if (!ReCaptcha.Validate("PRIVATE_KEY")) {
+        //     captchaMessage = "Captcha の応答が間違っています";
+        //     isValid = false;
+        // }
+
+        //  ユーザーの電子メール アドレスを検証します
+        if (email.IsEmpty()) {
+            emailErrorMessage = "電子メール アドレスを入力してください。";
+            isValid = false;
+        }
+
+        //  ユーザーのパスワードとパスワードの確認を検証します
+        if (password.IsEmpty()) {
+            passwordErrorMessage = "パスワードを空白にすることはできません。";
+            isValid = false;
+        }
+
+        if (password != confirmPassword) {
+            confirmPasswordMessage = "新しいパスワードと確認のパスワードが一致しません。";
+            isValid = false;
+        }
+
+        //  すべての情報が有効な場合、新しいアカウントを作成します
+        if (isValid) { 
+            //  データベースに新しいユーザーを挿入します
+            var db = Database.Open("StarterSite");
+
+            //  ユーザーが既に存在するかどうかを確認します
+            var user = db.QuerySingle("SELECT Email FROM UserProfile WHERE LOWER(Email) = LOWER(@0)", email);
+            if (user == null) {
+                //  プロファイル テーブルに電子メール アドレスを挿入します
+                db.Execute("INSERT INTO UserProfile (Email) VALUES (@0)", email);
+
+                //  メンバーシップ データベースに新しいエントリを作成して関連付けます。
+                //  正常に完了した場合は、要求の処理を続行します
+                try {
+                    bool requireEmailConfirmation = !WebMail.SmtpServer.IsEmpty();
+                    var token = WebSecurity.CreateAccount(email, password, requireEmailConfirmation);
+                    if (requireEmailConfirmation) {
+                        var hostUrl = Request.Url.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped);
+                        var confirmationUrl = hostUrl + VirtualPathUtility.ToAbsolute("~/Account/Confirm?confirmationCode=" + HttpUtility.UrlEncode(token));
+
+                        WebMail.Send(
+                            to: email,	
+                            subject: "アカウントを確認してください", 
+                            body: "確認コード:  " + token + "。<a href=\"" + confirmationUrl + "\">" + confirmationUrl + "</a> にアクセスしてアカウントを有効にしてください。"
+                        ); 
+                    }
+
+                    if (requireEmailConfirmation) {
+                        //  ユーザーの登録に感謝し、間もなく電子メールが届くことを伝えます
+                        Response.Redirect("~/Account/Thanks");
+                    } else {
+                        //  ホームページに移動して終了します
+                        WebSecurity.Login(email, password);
+                        Response.Redirect("~/");
+                    }
+                } catch (System.Web.Security.MembershipCreateUserException e) {
+                    isValid = false;
+                    accountCreationErrorMessage = e.ToString();
+                }
+            } else {
+                //  ユーザーは既に存在します
+                isValid = false;
+                accountCreationErrorMessage = "電子メール アドレスは既に使用中です。";
+            }
+        }    
+    }
+}
+
+<p>
+   新しいアカウントを作成するには、以下のフォームを使用してください。 
+</p>
+
+@* 検証エラーが 1 つでも存在する場合、ユーザーに通知します *@
+@if (!isValid) {
+   <p class="message error">
+    @if (accountCreationErrorMessage.IsEmpty()) {
+        @:エラーを修正し、再試行してください。
+    } else {
+        @accountCreationErrorMessage
+    }
+   </p>
+}
+
+<form method="post" action="">
+    <fieldset>
+        <legend>申し込みフォーム</legend>
+        <ol>
+            <li class="email">
+                <label for="email">電子メール:</label>
+                <input type="text" id="email" name="email" title="Email address" value="@email" @if(!emailErrorMessage.IsEmpty()){<text>class="error-field"</text>} />
+                @* 電子メール検証エラーをページに書き込みます *@
+                @if (!emailErrorMessage.IsEmpty()) {
+                    <label for="email" class="validation-error">@emailErrorMessage</label>
+                }
+            </li>
+            <li class="password">
+                <label for="password">パスワード:</label>
+                <input type="password" id="password" name="password" title="パスワード" @if(!passwordErrorMessage.IsEmpty()){<text>class="error-field"</text>} />
+                @* パスワード検証エラーをページに書き込みます *@
+                @if (!passwordErrorMessage.IsEmpty()) {
+                    <label for="password" class="validation-error">@passwordErrorMessage</label>
+                }
+            </li>
+            <li class="confirm-password">
+                <label for="confirmPassword">パスワードの確認入力:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" title="パスワードの確認入力" @if(!confirmPasswordMessage.IsEmpty()){<text>class="error-field"</text>} />
+                @* パスワード検証エラーをページに書き込みます *@
+                @if (!confirmPasswordMessage.IsEmpty()) {
+                    <label for="confirmPassword" class="validation-error">@confirmPasswordMessage</label>
+                }
+            </li>
+            <li class="recaptcha">
+                <div class="message info">
+                    <p>CAPTCHA 確認を有効にするには、<a href="http://go.microsoft.com/fwlink/?LinkId=204140">ASP.NET Web Helpers Library をインストール</a>し、ReCaptcha.GetHtml のコメントを解除して 'PUBLIC_KEY' を
+                    公開キーに置き換えます。  このページの先頭で ReCaptcha.Validate のコメントを解除し、
+                    'PRIVATE_KEY' を秘密キーに置き換えます。さらに、captchaMessage 変数のコメントも解除します。</p>
+                    <p><a href="http://recaptcha.net">reCAPTCHA.net</a> で reCAPTCHA キーを登録します。.</p>
+                </div>
+                @*@ReCaptcha.GetHtml("PUBLIC_KEY", theme: "white")
+                @if (!captchaMessage.IsEmpty()) {
+                    <label class="validation-error">@captchaMessage</label>
+                }*@
+            </li>
+        </ol>
+        <p class="form-actions">
+            <input type="submit" value="登録" title="登録" />
+        </p>
+    </fieldset>
+</form>
+

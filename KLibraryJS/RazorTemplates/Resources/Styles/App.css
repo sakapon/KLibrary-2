@@ -1,0 +1,86 @@
+﻿body
+{
+    font-family: "Segoe UI" , メイリオ, Tahoma, Geneva, Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    padding: 0px;
+    margin: 0px;
+}
+.page
+{
+    margin: auto;
+    width: 936px;
+}
+@media (max-width: 719px)
+{
+    .page
+    {
+        width: 456px;
+    }
+}
+@media (min-width: 720px) and (max-width: 959px)
+{
+    .page
+    {
+        width: 696px;
+    }
+}
+@media (min-width: 1280px)
+{
+    .page
+    {
+        width: 1256px;
+    }
+}
+header, .header
+{
+    margin: 24px;
+}
+footer, .footer
+{
+    font-size: 12px;
+    line-height: 18px;
+    margin: 24px;
+}
+.content
+{
+    position: relative;
+    margin: 0px 24px;
+}
+.content section, .content .section
+{
+    position: absolute;
+}
+a:link, a:visited
+{
+    color: #0044CC;
+    text-decoration: none;
+}
+a:hover, a:focus
+{
+    color: #0044CC;
+    text-decoration: underline;
+}
+a:active
+{
+    color: #0044CC;
+    text-decoration: none;
+}
+.inline-left
+{
+    display: inline;
+    float: left;
+}
+.clear
+{
+    clear: both;
+}
+h1
+{
+    font-size: 32px;
+    line-height: 44px;
+}
+p
+{
+    line-height: 21px;
+    margin: 4px 12px;
+}

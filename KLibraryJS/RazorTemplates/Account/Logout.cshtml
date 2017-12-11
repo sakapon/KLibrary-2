@@ -1,0 +1,13 @@
+﻿@{
+    //  現在のユーザー コンテキストからログアウトします
+    WebSecurity.Logout();
+
+    //  ホームページまたは戻り先 URL にリダイレクトします
+    var returnUrl = Request.QueryString["ReturnUrl"];
+    if (returnUrl.IsEmpty()) {
+        Response.Redirect("~/");
+    } else {
+        Context.RedirectLocal(returnUrl);
+    }
+}
+

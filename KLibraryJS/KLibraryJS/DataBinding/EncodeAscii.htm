@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="86400" />
+    <meta name="viewport" content="width=device-width, height=device-height" />
+    <meta property="og:url" content="http://apptest12.saka-pon.net/KLibraryJS/DataBinding/EncodeAscii.htm" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Do Design : saka-pon.net" />
+    <meta property="og:title" content="Encode ASCII" />
+    <meta property="og:description" content="データ バインディングのサンプルです。" />
+    <meta property="og:image" content="http://storage.saka-pon.net/Samples/Bakery/Images/Thumbnails/cupcakes.jpg" />
+    <meta property="og:locale" content="ja_JP" />
+    <title>Encode ASCII</title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="../Resources/Scripts/KLibrary-vsdoc.js" type="text/javascript"></script>
+    <link href="../Resources/Styles/DataBinding.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="page">
+        <h1>Encode ASCII</h1>
+        <table data-context="appModel.Chars">
+        </table>
+        <script type="text/plain">
+            <tr>
+                <td>${Id}</td>
+                <td>${Id>toHex}</td>
+                <td>${Char}</td>
+                <td>${Char>escape}</td>
+                <td>${Char>encodeURI}</td>
+                <td>${Char>encodeURIComponent}</td>
+                <td>${UriEncoded}</td>
+                <td>${UriEncoded>unescape}</td>
+                <td>${UriEncoded>decodeURI}</td>
+                <td>${UriEncoded>decodeURIComponent}</td>
+            </tr>
+        </script>
+    </div>
+    <script type="text/javascript">
+        //<![CDATA[
+        function toHex(x) { return x.format("X2"); }
+
+        var appModel = {
+            Chars: KLibrary.ArrayEx.range(32, 95)
+                .select(function (x) { return { Id: x, Char: String.fromCharCode(x), UriEncoded: x.format("%X2") }; })
+                .where(function (x) { return x.Char.search(/[a-zA-Z0-9]/g) == -1; })
+        };
+
+        $(function () {
+            $(document).updateTarget();
+        });
+        //]]>
+    </script>
+</body>
+</html>

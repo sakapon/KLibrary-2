@@ -1,0 +1,128 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "KLibraryJS", "KLibraryJS", "{F3AF6204-C416-4ADC-82AA-0446BC5944A6}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = "SAK"
+		SccAuxPath = "SAK"
+		SccLocalPath = "SAK"
+		SccProvider = "SAK"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/KLibraryJS"
+		Debug.AspNetCompiler.PhysicalPath = "KLibraryJS\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\KLibraryJS\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/KLibraryJS"
+		Release.AspNetCompiler.PhysicalPath = "KLibraryJS\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\KLibraryJS\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "13732"
+		DefaultWebSiteLanguage = "Visual C#"
+		StartServerOnDebug = "false"
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "HtmlTemplates", "HtmlTemplates", "{FC3A70DD-0B9D-4551-BF70-DA1745604783}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = "SAK"
+		SccAuxPath = "SAK"
+		SccLocalPath = "SAK"
+		SccProvider = "SAK"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/HtmlTemplates"
+		Debug.AspNetCompiler.PhysicalPath = "HtmlTemplates\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\HtmlTemplates\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/HtmlTemplates"
+		Release.AspNetCompiler.PhysicalPath = "HtmlTemplates\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\HtmlTemplates\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "14586"
+		StartServerOnDebug = "false"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Release", "Release", "{59403D64-25A3-4EA1-9D27-EF3812F4EF2B}"
+	ProjectSection(SolutionItems) = preProject
+		Release\TileButton-1.0.15.zip = Release\TileButton-1.0.15.zip
+		Release\TileButton-1.1.61.zip = Release\TileButton-1.1.61.zip
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "RazorTemplates", "RazorTemplates", "{BD9F1287-1DB0-4647-B937-BCDFC4D36653}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = "SAK"
+		SccAuxPath = "SAK"
+		SccLocalPath = "SAK"
+		SccProvider = "SAK"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/RazorTemplates"
+		Debug.AspNetCompiler.PhysicalPath = "RazorTemplates\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\RazorTemplates\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/RazorTemplates"
+		Release.AspNetCompiler.PhysicalPath = "RazorTemplates\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\RazorTemplates\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "5656"
+		DefaultWebSiteLanguage = "Visual C#"
+		StartServerOnDebug = "false"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{19652973-205C-48FF-AA93-826B87387A9E}"
+	ProjectSection(SolutionItems) = preProject
+		Tools\MinifyResources.bat = Tools\MinifyResources.bat
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs13
+		SccLocalPath0 = .
+		SccWebProject1 = true
+		SccProjectUniqueName1 = KLibraryJS
+		SccProjectName1 = KLibraryJS
+		SccLocalPath1 = KLibraryJS
+		SccProjectEnlistmentChoice1 = 2
+		SccWebProject2 = true
+		SccProjectUniqueName2 = HtmlTemplates
+		SccProjectName2 = HtmlTemplates
+		SccLocalPath2 = HtmlTemplates
+		SccProjectEnlistmentChoice2 = 2
+		SccWebProject3 = true
+		SccProjectUniqueName3 = RazorTemplates
+		SccProjectName3 = RazorTemplates
+		SccLocalPath3 = RazorTemplates
+		SccProjectEnlistmentChoice3 = 2
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3AF6204-C416-4ADC-82AA-0446BC5944A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3AF6204-C416-4ADC-82AA-0446BC5944A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC3A70DD-0B9D-4551-BF70-DA1745604783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC3A70DD-0B9D-4551-BF70-DA1745604783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD9F1287-1DB0-4647-B937-BCDFC4D36653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD9F1287-1DB0-4647-B937-BCDFC4D36653}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

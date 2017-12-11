@@ -1,0 +1,96 @@
+﻿@{
+    Layout = "~/_SiteLayout-HTML5.cshtml";
+    Page.Title = "Page";
+}
+@section head {
+    <style type="text/css">
+        .content
+        {
+            height: 500px;
+        }
+        #Section1
+        {
+            width: 400px;
+            height: 200px;
+            left: 0px;
+            top: 0px;
+            background-color: #FCC;
+        }
+        #Section2
+        {
+            width: 400px;
+            height: 200px;
+            left: 400px;
+            top: 100px;
+            background-color: #CFC;
+        }
+        #Section3
+        {
+            width: 400px;
+            height: 200px;
+            left: 200px;
+            top: 300px;
+            background-color: #CCF;
+        }
+        @@media (max-width: 719px)
+        {
+            .content
+            {
+                height: 600px;
+            }
+            #Section2
+            {
+                left: 0px;
+                top: 200px;
+            }
+            #Section3
+            {
+                left: 0px;
+                top: 400px;
+            }
+        }
+        @@media (min-width: 720px) and (max-width: 959px)
+        {
+            .content
+            {
+                height: 600px;
+            }
+            #Section2
+            {
+                left: 200px;
+                top: 200px;
+            }
+            #Section3
+            {
+                left: 100px;
+                top: 400px;
+            }
+        }
+        @@media (min-width: 1280px)
+        {
+            #Section3
+            {
+                left: 700px;
+            }
+        }
+    </style>
+}
+<section id="Section1">
+    <h2>@Page.Title</h2>
+    <p>Section 1</p>
+    <p><a href="">XHTML 1.0 テンプレート</a></p>
+</section>
+<section id="Section2">
+    <p>Section 2</p>
+    <p><a href="HTML5">HTML5 テンプレート</a></p>
+</section>
+<section id="Section3">
+    <p>Section 3</p>
+</section>
+@section script {
+    <script type="text/javascript">
+        $(function () {
+            App.func1();
+        });
+    </script>
+}

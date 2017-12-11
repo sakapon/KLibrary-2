@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="86400" />
+    <meta name="viewport" content="width=device-width, height=device-height" />
+    <title>KLibrary.js Array Test</title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <link href="../Resources/Styles/KTest.css" rel="stylesheet" type="text/css" />
+    <script src="../Resources/Scripts/KTest.js" type="text/javascript"></script>
+    <script src="../Resources/Scripts/KLibrary-vsdoc.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="page"></div>
+    <script type="text/javascript">
+        //<![CDATA[
+        $(function () {
+            KTest.runTest("isArrayTest", [99, 100]);
+            KTest.runTest("toArrayTest", [99, 100]);
+            KTest.runTest("rangeTest");
+            KTest.runTest("toDictionaryTest");
+            KTest.runTest("allTest");
+            KTest.runTest("anyTest");
+            KTest.runTest("containsTest");
+            KTest.runTest("eachTest");
+            KTest.runTest("firstTest");
+            KTest.runTest("lastTest");
+            KTest.runTest("groupByTest");
+            KTest.runTest("groupByToDictionaryTest");
+            KTest.runTest("orderByTest");
+            KTest.runTest("selectTest");
+            KTest.runTest("whereTest");
+        });
+
+        function isArrayTest() {
+            KTest.areEqual(false, KLibrary.isArray(undefined), true);
+            KTest.areEqual(false, KLibrary.isArray(null), true);
+            KTest.areEqual(false, KLibrary.isArray({}), true);
+            KTest.areEqual(false, KLibrary.isArray(isArrayTest), true);
+            KTest.areEqual(true, KLibrary.isArray([]), true);
+            KTest.areEqual(true, KLibrary.isArray([1]), true);
+            KTest.areEqual(true, KLibrary.isArray(arguments), true);
+            KTest.areEqual(true, KLibrary.isArray({ length: 0 }), true);
+        }
+
+        function toArrayTest() {
+            KTest.writeValue("KLibrary.toArray(undefined)");
+            KTest.writeValue("KLibrary.toArray(null)");
+            KTest.writeValue("KLibrary.toArray({})");
+            KTest.writeValue("KLibrary.toArray({ a: 1, b: 2 })");
+            KTest.writeValue("KLibrary.toArray(isArrayTest)");
+            KTest.writeValue("KLibrary.toArray([])");
+            KTest.writeValue("KLibrary.toArray([1])");
+            KTest.writeMessage("KLibrary.toArray(arguments)", KLibrary.toArray(arguments));
+            KTest.writeValue("KLibrary.toArray({ length: 0 })");
+            KTest.writeValue("KLibrary.toArray({ length: 2, 0: 99, 1: 100 })");
+        }
+
+        function rangeTest() {
+            KTest.writeValue("KLibrary.ArrayEx.range(20, 0)");
+            KTest.writeValue("KLibrary.ArrayEx.range(0, 20)");
+            KTest.writeValue("KLibrary.ArrayEx.range(20, 10)");
+        }
+
+        function toDictionaryTest() {
+            var a = [
+                { id: 1, name: "abc" },
+                { id: 3, name: "def" }
+            ];
+            var d = a.toDictionary(function (x) { return x.id; }, function (x) { return x.name; });
+            KTest.areEqual("abc", d[1]);
+            KTest.areEqual("def", d[3]);
+        }
+
+        function allTest() {
+            KTest.areEqual(true, [].all());
+            KTest.areEqual(false, [99].all());
+            KTest.areEqual(true, [3, 6, 9].all(function (x) { return x % 3 == 0; }));
+            KTest.areEqual(false, [3, 6, 19].all(function (x) { return x % 3 == 0; }));
+            KTest.areEqual(false, [13, 16, 19].all(function (x) { return x % 3 == 0; }));
+        }
+
+        function anyTest() {
+            KTest.areEqual(false, [].any());
+            KTest.areEqual(true, [99].any());
+            KTest.areEqual(true, [3, 6, 9].any(function (x) { return x % 3 == 0; }));
+            KTest.areEqual(true, [3, 6, 19].any(function (x) { return x % 3 == 0; }));
+            KTest.areEqual(false, [13, 16, 19].all(function (x) { return x % 3 == 0; }));
+        }
+
+        function containsTest() {
+            KTest.areEqual(false, [].contains());
+            KTest.areEqual(false, [].contains(1));
+            KTest.areEqual(true, [99, 100].contains(99));
+            KTest.areEqual(true, [99, 100].contains(100));
+            KTest.areEqual(false, [99, 100].contains(1));
+        }
+
+        function eachTest() {
+            var a = [3, 4, 5];
+            var r = a.each(function (x, i) {
+                KTest.areEqual(a, this, true);
+                KTest.areEqual(a[i], x, true);
+            });
+            KTest.areEqual(a, r, true);
+        }
+
+        function firstTest() {
+            KTest.areEqual(null, [].first(), true);
+            KTest.areEqual(99, [99].first(), true);
+            KTest.areEqual(99, [99, 100].first(), true);
+            KTest.areEqual(null, [99, 100].first(function (x, i) { return false; }), true);
+            KTest.areEqual(100, [99, 100].first(function (x, i) { return x % 2 == 0; }), true);
+        }
+
+        function lastTest() {
+            KTest.areEqual(null, [].last(), true);
+            KTest.areEqual(99, [99].last(), true);
+            KTest.areEqual(100, [99, 100].last(), true);
+            KTest.areEqual(null, [99, 100].last(function (x, i) { return false; }), true);
+            KTest.areEqual(99, [99, 100].last(function (x, i) { return x % 2 == 1; }), true);
+        }
+
+        function groupByTest() {
+            var a = [1, 2, 3, 4].groupBy(function (x) { return "A" + (x % 3); }, function (x) { return x * x; });
+            KTest.areEqual(3, a.length);
+            KTest.areEqual("A1", a[0].key);
+            KTest.areEqual(1, a[0].value[0]);
+            KTest.areEqual(16, a[0].value[1]);
+            KTest.areEqual("A2", a[1].key);
+            KTest.areEqual(4, a[1].value[0]);
+            KTest.areEqual("A0", a[2].key);
+            KTest.areEqual(9, a[2].value[0]);
+        }
+
+        function groupByToDictionaryTest() {
+            var d = [1, 2, 3, 4].groupByToDictionary(function (x) { return "A" + (x % 3); }, function (x) { return x * x; });
+            KTest.areEqual(1, d.A0.length);
+            KTest.areEqual(2, d.A1.length);
+            KTest.areEqual(1, d.A2.length);
+            KTest.areEqual(9, d.A0[0]);
+            KTest.areEqual(1, d.A1[0]);
+            KTest.areEqual(16, d.A1[1]);
+            KTest.areEqual(4, d.A2[0]);
+        }
+
+        function orderByTest() {
+            KTest.areEqual(0, [].orderBy(function (x) { return x.id; }).length);
+            var a = [{ id: 3, name: "c" }, { id: 2, name: "b" }, { id: 1, name: "a"}].orderBy(function (x) { return x.id; });
+            KTest.areEqual("a", a[0].name);
+            KTest.areEqual("b", a[1].name);
+            KTest.areEqual("c", a[2].name);
+        }
+
+        function selectTest() {
+            KTest.areEqual(0, [].select(function (x) { return x.id; }).length);
+            KTest.areEqual("A3", [3, 4, 5, 6, 7].select(function (x) { return "A" + x; })[0]);
+            KTest.areEqual(7, [3, 4, 5, 6, 7].select(function (x, i) { return x + i; })[2]);
+        }
+
+        function whereTest() {
+            KTest.areEqual(0, [].where(function (x) { return x.id; }).length);
+            KTest.areEqual(3, [3, 4, 5, 6, 7].where(function (x) { return x % 3 == 0; })[0]);
+            KTest.areEqual(6, [3, 4, 5, 6, 7].where(function (x) { return x % 3 == 0; })[1]);
+            KTest.areEqual(6, [3, 4, 5, 6, 7].where(function (x, i) { return i == 3; })[0]);
+        }
+        //]]>
+    </script>
+</body>
+</html>

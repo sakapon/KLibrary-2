@@ -1,0 +1,102 @@
+﻿@{
+    //  レイアウト ページとページ タイトルを設定します
+    Layout = "~/_SiteLayout.cshtml";
+    Page.Title = "ログイン";
+
+    //  全般的なページ変数を初期化します
+    var username = "";
+    var password = "";
+    var rememberMe = false;
+
+    // 検証
+    var isValid = true;
+    var usernameErrorMessage = "";
+    var passwordErrorMessage = "";
+
+    //  これが POST 要求の場合、データを検証して処理します
+    if (IsPost) {
+        username = Request.Form["username"];
+        password = Request.Form["password"];
+        rememberMe = Request.Form["rememberMe"].AsBool();
+
+        // ユーザーのユーザー名を検証します
+        if (username.IsEmpty()) {
+            usernameErrorMessage = "ユーザー名を指定してください。";
+            isValid = false;
+        }
+
+        // ユーザーのパスワードを検証します
+        if (password.IsEmpty()) {
+            passwordErrorMessage = "パスワードを入力してください。";
+            isValid = false;
+        }
+
+        // 検証エラーがないことを確認します
+        if (isValid) {
+            if (WebSecurity.UserExists(username) && WebSecurity.GetPasswordFailuresSinceLastSuccess(username) > 4 && WebSecurity.GetLastPasswordFailureDate(username).AddSeconds(60) > DateTime.UtcNow ) {
+                Response.Redirect("~/account/AccountLockedOut");
+                return;
+            }
+
+            // 提供された資格情報を使用して、セキュリティ オブジェクトへのログインを試みます
+            if (WebSecurity.Login(username, password, rememberMe)) {
+                var returnUrl = Request.QueryString["ReturnUrl"];
+                if (returnUrl.IsEmpty()){
+                    Response.Redirect("~/");
+                } else {
+                    Context.RedirectLocal(returnUrl);
+                }
+            }
+
+            // この状態に至った場合、ログインは失敗しています。ユーザーにそのことを通知します
+            isValid = false;
+        }    
+    }
+}
+
+<p>
+   ユーザー名とパスワードをここに入力してください。 アカウントがない場合は、
+   <a href="@Href("~/Account/Register")">登録のページ</a> にアクセスして、アカウントを作成してください。
+</p>
+
+@* 検証エラーが 1 つ以上存在する場合、エラーが表示されます *@
+@if (!isValid) {
+   <p class="message error">ログイン時に問題が発生したか、フォームにエラーが存在しています。または、これら両方の問題があります。</p>
+}
+
+<form method="post" action="">
+    <fieldset>
+        <legend>アカウントにログインします</legend>
+        <ol>
+            <li class="username">
+                <label for="username">ユーザー名:</label>
+                <input type="text" id="username" name="username" value="@username" title="ユーザー名" @if(!usernameErrorMessage.IsEmpty()){<text>class="error-field"</text>} />
+                @* ユーザー名検証エラーをページに書き込みます *@
+                @if (!usernameErrorMessage.IsEmpty()) {
+                <label for="username" class="validation-error">
+                    @usernameErrorMessage
+                </label>
+                }
+            </li>
+            <li class="password">
+                <label for="password">パスワード:</label>
+                <input type="password" id="password" name="password" title="パスワード" @if(!passwordErrorMessage.IsEmpty()){<text>class="error-field"</text>} />
+                @* パスワード検証エラーをページに書き込みます *@
+                @if (!passwordErrorMessage.IsEmpty()) {
+                <label for="password" class="validation-error">
+                    @passwordErrorMessage
+                </label>
+                }
+            </li>
+            <li class="remember-me">
+                <label class="checkbox" for="rememberMe">このアカウントを記憶する</label>
+                <input type="checkbox" id="rememberMe" name="rememberMe" value="true" title="このアカウントを記憶する" @if(rememberMe){<text>checked="checked"</text>} />
+            </li>
+        </ol>
+        <p class="form-actions">
+            <input type="submit" value="ログイン" title="ログイン"/>
+        </p>
+        <p><a href="@Href("~/Account/ForgotPassword")">パスワードを忘れた場合</a></p>
+    </fieldset>
+</form>
+

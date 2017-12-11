@@ -1,0 +1,135 @@
+﻿.tile-text, .tile-image, .tile-body-color, .tile-accent-color
+{
+    background-color: #1BA1E2;
+    border-style: solid;
+    border-width: 0px;
+    display: inline;
+    float: left;
+    cursor: pointer;
+    margin: 4px;
+}
+.tile-text
+{
+    font-family: "Segoe UI" , メイリオ, Tahoma, Geneva, Verdana, Arial, Helvetica, sans-serif;
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 8px 0px;
+    width: 128px;
+    height: 36px;
+}
+a.tile-text, div.tile-text
+{
+    width: 128px;
+    height: 20px;
+}
+.tile-image
+{
+    padding: 0px;
+    width: 48px;
+    height: 48px;
+}
+.tile-body-color, .tile-accent-color
+{
+    padding: 0px;
+    width: 36px;
+    height: 36px;
+}
+.tile-text[disabled], .tile-image[disabled], .tile-body-color[disabled], .tile-accent-color[disabled]
+{
+    background-color: #AAA;
+    cursor: default;
+}
+.tile-text:not([disabled]):hover, .tile-image:not([disabled]):hover, .tile-body-color:not([disabled]):hover, .tile-accent-color:not([disabled]):hover
+{
+    opacity: 0.55;
+}
+.tile-text:not([disabled]):focus, .tile-image:not([disabled]):focus, .tile-body-color:not([disabled]):focus, .tile-accent-color:not([disabled]):focus
+{
+    opacity: 0.55;
+}
+.tile-text:not([disabled]):active, .tile-image:not([disabled]):active, .tile-body-color:not([disabled]):active, .tile-accent-color:not([disabled]):active
+{
+    opacity: 1;
+}
+.tile-text:not([disabled]):active
+{
+    font-size: 15px;
+    line-height: 19px;
+    border-width: 3px 3px 0px 3px;
+    padding: 7px 0px;
+}
+a.tile-text:not([disabled]):active, div.tile-text:not([disabled]):active
+{
+    width: 122px;
+    height: 19px;
+}
+.tile-image:not([disabled]):active
+{
+    border-width: 5px 2px 0px 2px;
+    width: 44px;
+    height: 43px;
+}
+.tile-body-color:not([disabled]):active, .tile-accent-color:not([disabled]):active
+{
+    border-width: 3px 1px 0px 1px;
+}
+.accent-fore-color
+{
+    color: #1BA1E2;
+}
+.accent-back-color
+{
+    background-color: #1BA1E2;
+}
+.accent-border-color
+{
+    border-color: #1BA1E2;
+}
+.busy-line
+{
+    position: relative;
+    margin: 4px;
+    height: 16px;
+}
+.busy-line div
+{
+    background-color: #1BA1E2;
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    top: 5px;
+    left: 0px;
+}
+.busy-roll
+{
+    position: relative;
+    display: inline;
+    float: left;
+    margin: 4px;
+    width: 36px;
+    height: 36px;
+}
+.busy-roll div
+{
+    background-color: #1BA1E2;
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+}
+.busy-roll div.busy-roll-move
+{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+}
+::selection
+{
+    color: #FFF;
+}

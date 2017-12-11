@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="86400" />
+    <meta name="viewport" content="width=device-width, height=device-height" />
+    <title>KLibrary.js IO Test</title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <link href="../Resources/Styles/KTest.css" rel="stylesheet" type="text/css" />
+    <script src="../Resources/Scripts/KTest.js" type="text/javascript"></script>
+    <script src="../Resources/Scripts/KLibrary-vsdoc.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="page"></div>
+    <script type="text/javascript">
+        //<![CDATA[
+        $(function () {
+            KTest.runTest("cookieTest");
+        });
+
+        var symbols = KLibrary.ArrayEx.range(32, 95)
+            .select(function (x) { return String.fromCharCode(x); })
+            .where(function (x) { return x.search(/[a-zA-Z0-9]/g) == -1; })
+            .join("");
+
+        function cookieTest() {
+            KTest.areEqual("DefaultValue", KLibrary.IO.getCookie("CookieTest", "DefaultValue"));
+            KLibrary.IO.setCookie("CookieTest_Normal", "Value1");
+            KTest.areEqual("Value1", KLibrary.IO.getCookie("CookieTest_Normal", "DefaultValue"));
+            KLibrary.IO.setCookie("CookieTest_Symbols", symbols);
+            KTest.areEqual(symbols, KLibrary.IO.getCookie("CookieTest_Symbols", "DefaultValue"));
+            KLibrary.IO.setCookie("CookieTest_Japanese", "あいう漢字");
+            KTest.areEqual("あいう漢字", KLibrary.IO.getCookie("CookieTest_Japanese", "DefaultValue"));
+        }
+        //]]>
+    </script>
+</body>
+</html>

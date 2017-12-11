@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="86400" />
+    <meta name="viewport" content="width=device-width, height=device-height" />
+    <title>KLibrary.js Format Test</title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <link href="../Resources/Styles/KTest.css" rel="stylesheet" type="text/css" />
+    <script src="../Resources/Scripts/KTest.js" type="text/javascript"></script>
+    <script src="../Resources/Scripts/KLibrary-vsdoc.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="page"></div>
+    <script type="text/javascript">
+        //<![CDATA[
+        $(function () {
+            KTest.runTest("formatTest");
+            KTest.runTest("formatObjectTest");
+            KTest.runTest("formatNumberTest");
+            KTest.runTest("formatDateTest");
+        });
+
+        var d2010 = new Date(2010, 0, 2, 0, 1, 2);
+
+        function formatTest() {
+            KTest.areEqual(": ", KLibrary.format("{0}: {1}"));
+            KTest.areEqual(": ", KLibrary.format("{0}: {1}", null));
+            KTest.areEqual(": ", KLibrary.format("{0}: {1}", null, null));
+            KTest.areEqual(": ", KLibrary.format("{0}: {1}", []));
+            KTest.areEqual("123: Text", KLibrary.format("{0}: {1}", 123, "Text"));
+            KTest.areEqual("123: Text", KLibrary.format("{0}: {1}", [123, "Text"]));
+            KTest.areEqual("7B: Text", KLibrary.format("{0:X2}: {1}", 123, "Text"));
+            KTest.areEqual("2010/01/02 0:01:02: Text", KLibrary.format("{0}: {1}", d2010, "Text"));
+            KTest.areEqual("1/2 0:01: Text", KLibrary.format("{0:M/d H:mm}: {1}", d2010, "Text"));
+        }
+
+        function formatObjectTest() {
+            KTest.areEqual(": ", KLibrary.formatObject("${Id}: ${Name}"));
+            KTest.areEqual(": ", KLibrary.formatObject("${Id}: ${Name}", null));
+            KTest.areEqual(": ", KLibrary.formatObject("${Id}: ${Name}", {}));
+            KTest.areEqual("123: Text", KLibrary.formatObject("${Id}: ${Name}", { Id: 123, Name: "Text" }));
+            KTest.areEqual("7B: Text", KLibrary.formatObject("${Id:X2}: ${Name}", { Id: 123, Name: "Text" }));
+            KTest.areEqual("2010/01/02 0:01:02: Text", KLibrary.formatObject("${Id}: ${Name}", { Id: d2010, Name: "Text" }));
+            KTest.areEqual("1/2 0:01: Text", KLibrary.formatObject("${Id:M/d H:mm}: ${Name}", { Id: d2010, Name: "Text" }));
+            KTest.areEqual("123: \"'&<>", KLibrary.formatObject("${Id}: ${Name}", { Id: 123, Name: "\"'&<>" }));
+            KTest.areEqual("123: &quot;&#39;&amp;&lt;&gt;", KLibrary.formatObject("${Id}: ${Name}", { Id: 123, Name: "\"'&<>" }, true));
+        }
+
+        function formatNumberTest() {
+            KTest.areEqual("1", (1).format("N2"));
+            KTest.areEqual("12", (12).format("N2"));
+            KTest.areEqual("123", (123).format("N2"));
+            KTest.areEqual("1,234", (1234).format("N2"));
+            KTest.areEqual("1,234,567", (1234567).format("N2"));
+            KTest.areEqual("1,234,567.89", (1234567.89).format("N2"));
+            KTest.areEqual("C", (12).format("X1"));
+            KTest.areEqual("0C", (12).format("X2"));
+            KTest.areEqual("00C", (12).format("X3"));
+            KTest.areEqual("0c", (12).format("x2"));
+            KTest.areEqual("FF", (255).format("X1"));
+            KTest.areEqual("FF", (255).format("X2"));
+            KTest.areEqual("0FF", (255).format("X3"));
+            KTest.areEqual("200", (512).format("X1"));
+            KTest.areEqual("200", (512).format("X2"));
+            KTest.areEqual("200", (512).format("X3"));
+        }
+
+        function formatDateTest() {
+            KTest.areEqual("2010/01/02 0:01:02", d2010.format());
+            KTest.areEqual("2010/01/02 00:01:02", d2010.format("yyyy/MM/dd HH:mm:ss"));
+            KTest.areEqual("1/2 0:01", d2010.format("M/d H:mm"));
+            KTest.writeValue("new Date().format(\"yyyy/MM/dd HH:mm:ss\")");
+            KTest.writeValue("new Date().format(\"M/d H:mm\")");
+        }
+        //]]>
+    </script>
+</body>
+</html>
