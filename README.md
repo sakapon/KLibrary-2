@@ -1,2 +1,2 @@
-# KLibrary-2
+## KLibrary 2
 The basic library.
